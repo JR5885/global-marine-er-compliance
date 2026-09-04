@@ -2,6 +2,7 @@
 <html lang="zh-TW">
 <head>
 <meta charset="UTF-8">
+<title>Global Benchmark Dashboard</title>
 <style>
   * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; }
   body { background-color: #0b0f19; color: #94a3b8; padding: 32px; }
@@ -11,7 +12,7 @@
   .top-bar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px; }
   .logo-title { font-size: 28px; font-weight: 700; color: #ffffff; letter-spacing: -0.5px; }
   .lang-switch { display: flex; background: #131b2e; border: 1px solid #1e293b; border-radius: 6px; padding: 3px; }
-  .lang-btn { padding: 4px 12px; font-size: 13px; font-weight: 600; border-radius: 4px; border: none; cursor: pointer; }
+  .lang-btn { padding: 4px 12px; font-size: 13px; font-weight: 600; border-radius: 4px; border: none; cursor: pointer; transition: all 0.2s; }
   .lang-btn.active { background: #ffffff; color: #0b0f19; }
   .lang-btn.inactive { background: transparent; color: #64748b; }
 
@@ -26,7 +27,7 @@
 
   /* Country Tabs */
   .country-tabs { display: flex; gap: 12px; margin-bottom: 32px; }
-  .country-tab { display: flex; align-items: center; gap: 8px; background: #131b2e; border: 1px solid #1e293b; padding: 8px 16px; border-radius: 8px; font-size: 13px; color: #64748b; font-weight: 500; cursor: pointer; }
+  .country-tab { display: flex; align-items: center; gap: 8px; background: #131b2e; border: 1px solid #1e293b; padding: 8px 16px; border-radius: 8px; font-size: 13px; color: #64748b; font-weight: 500; cursor: pointer; user-select: none; transition: all 0.2s; }
   .country-tab.active { background: #172033; border-color: #3b82f6; color: #ffffff; }
   .tag { font-size: 11px; padding: 2px 6px; border-radius: 4px; font-weight: 700; }
   .tag-inactive { background: #1e293b; color: #10b981; }
@@ -50,7 +51,7 @@
 
   /* Stage Pills */
   .stage-bar { display: flex; gap: 14px; margin-bottom: 20px; }
-  .stage-pill { display: flex; align-items: center; gap: 8px; padding: 8px 18px; border-radius: 20px; font-size: 13px; font-weight: 600; cursor: pointer; border: 1px solid transparent; }
+  .stage-pill { display: flex; align-items: center; gap: 8px; padding: 8px 18px; border-radius: 20px; font-size: 13px; font-weight: 600; cursor: pointer; border: 1px solid transparent; user-select: none; transition: all 0.2s; }
   .stage-pill.active { background: #064e3b; border-color: #10b981; color: #34d399; }
   .stage-pill.inactive { background: #131b2e; border-color: #1e293b; color: #64748b; }
   .stage-dot { width: 7px; height: 7px; border-radius: 50%; }
@@ -114,8 +115,8 @@
   <div class="top-bar">
     <div class="logo-title">離岸海事工程跨國用工與 ER 合規架構儀表板</div>
     <div class="lang-switch">
-      <button class="lang-btn active">繁中</button>
-      <button class="lang-btn inactive">EN</button>
+      <button class="lang-btn active" onclick="switchLang(this)">繁中</button>
+      <button class="lang-btn inactive" onclick="switchLang(this)">EN</button>
     </div>
   </div>
 
@@ -129,59 +130,65 @@
 
   <!-- Country Tabs -->
   <div class="country-tabs">
-    <div class="country-tab">NL/BE/UK/DE 歐洲外派幹部 <span class="tag tag-inactive">EU</span></div>
-    <div class="country-tab active">TW 台灣本土員工 <span class="tag tag-active">TW</span></div>
-    <div class="country-tab">PH/ID/UA 國際船員 <span class="tag tag-inactive">SEA</span></div>
+    <div class="country-tab" onclick="switchCountry('EU')">
+      NL/BE/UK/DE 歐洲外派幹部 <span class="tag tag-inactive">EU</span>
+    </div>
+    <div class="country-tab active" onclick="switchCountry('TW')">
+      TW 台灣本土員工 <span class="tag tag-active">TW</span>
+    </div>
+    <div class="country-tab" onclick="switchCountry('SEA')">
+      PH/ID/UA 國際船員 <span class="tag tag-inactive">SEA</span>
+    </div>
   </div>
 
   <!-- Header Section -->
   <div class="country-header">
     <div class="country-title-box">
-      <span class="country-code">TW</span>
-      <span class="country-name">台灣本土員工</span>
+      <span class="country-code" id="countryCode">TW</span>
+      <span class="country-name" id="countryName">台灣本土員工</span>
     </div>
     <div class="employment-struct">
       <div class="struct-label">雇傭架構</div>
-      <div class="struct-value">境內合資/分公司實體（如伯威海事 Boskalis HwaChi）直接簽署勞動合約</div>
+      <div class="struct-value" id="structValue">境內合資/分公司實體（如伯威海事 Boskalis HwaChi）直接簽署勞動合約</div>
     </div>
   </div>
 
   <!-- Stats Cards Bar -->
   <div class="stats-grid">
     <div class="stat-card">
-      <div class="stat-title stat-title-cyan">勞退新制</div>
-      <div class="stat-desc">每滿 1 年發給 0.5 個月平均工資</div>
+      <div class="stat-title stat-title-cyan" id="stat1Title">勞退新制</div>
+      <div class="stat-desc" id="stat1Desc">每滿 1 年發給 0.5 個月平均工資</div>
     </div>
     <div class="stat-card">
-      <div class="stat-title stat-title-cyan">上限 6 個月</div>
-      <div class="stat-desc">資遣費法定累積上限</div>
+      <div class="stat-title stat-title-cyan" id="stat2Title">上限 6 個月</div>
+      <div class="stat-desc" id="stat2Desc">資遣費法定累積上限</div>
     </div>
     <div class="stat-card">
-      <div class="stat-title stat-title-cyan">違法解僱 = 僱傭關係存在</div>
-      <div class="stat-desc">判決確定需補發爭訟期間工資與利息</div>
+      <div class="stat-title stat-title-cyan" id="stat3Title">違法解僱 = 僱傭關係存在</div>
+      <div class="stat-desc" id="stat3Desc">判決確定需補發爭訟期間工資與利息</div>
     </div>
     <div class="stat-card">
-      <div class="stat-title stat-title-cyan">法規雙軌分流</div>
-      <div class="stat-desc">勞基法（陸上）vs 海員法（在船）</div>
+      <div class="stat-title stat-title-cyan" id="stat4Title">法規雙軌分流</div>
+      <div class="stat-desc" id="stat4Desc">勞基法（陸上）vs 海員法（在船）</div>
     </div>
   </div>
 
   <!-- Stage Pills -->
   <div class="stage-bar">
-    <div class="stage-pill active">
+    <div class="stage-pill active" onclick="switchStage(this, '入職 ONBOARDING — 架構合規 + 人員配置')">
       <span class="stage-dot active"></span> 入職 ONBOARDING
     </div>
-    <div class="stage-pill inactive">
+    <div class="stage-pill inactive" onclick="switchStage(this, '資遣 EMPLOYER-INITIATED — 合規終止 + 資遣備案')">
       <span class="stage-dot red"></span> 資遣 EMPLOYER-INITIATED
     </div>
-    <div class="stage-pill inactive">
+    <div class="stage-pill inactive" onclick="switchStage(this, '離職 VOLUNTARY EXIT — 離職程序 + 競業保密')">
       <span class="stage-dot yellow"></span> 離職 VOLUNTARY EXIT
     </div>
   </div>
 
   <!-- Stage Label -->
   <div class="section-label">
-    <span class="bar"></span> ▍入職 ONBOARDING — 架構合規 + 人員配置
+    <span class="bar"></span> <span id="stageLabel">▍入職 ONBOARDING — 架構合規 + 人員配置</span>
   </div>
 
   <!-- Content 2x2 Grid -->
@@ -193,13 +200,13 @@
           <div class="num-badge num-badge-gray">1</div>
           <div class="card-title">目前最新勞動法規</div>
         </div>
-        <div class="main-law-title">《勞動基準法》與《海員法》適用邊界：陸上與近岸支援團隊完全受《勞動基準法》管轄；登輪作業人員需依船舶國籍（外籍特種船 vs 台籍工作船）釐清管轄權分流。</div>
-        <ul class="bullet-list">
+        <div class="main-law-title" id="card1MainTitle">《勞動基準法》與《海員法》適用邊界：陸上與近岸支援團隊完全受《勞動基準法》管轄；登輪作業人員需依船舶國籍（外籍特種船 vs 台籍工作船）釐清管轄權分流。</div>
+        <ul class="bullet-list" id="card1Bullets">
           <li><strong>國產化政策（Local Content）要求</strong>：專案協調員、本地海事測量人員及後勤必須符合主管機關國產化承諾比率與用人資格。</li>
           <li><strong>法定提繳與投保</strong>：勞退新制 6% 為<strong>強制提繳</strong>；勞健保與職災保險自到職日起足額申報，嚴禁以津貼打包或書面切結協議放棄。</li>
         </ul>
       </div>
-      <div class="law-footer">法源：《勞動基準法》§11、§17、§84-1；《海員法》；《勞工退休金條例》§12</div>
+      <div class="law-footer" id="card1Footer">法源：《勞動基準法》§11、§17、§84-1；《海員法》；《勞工退休金條例》§12</div>
     </div>
 
     <!-- Card 2 -->
@@ -209,10 +216,10 @@
           <div class="num-badge num-badge-red">2</div>
           <div class="card-title">海事用工痛點 × 解法</div>
         </div>
-        <div class="card-body-text">
+        <div class="card-body-text" id="card2MainTitle">
           政策紅線：<strong>海事專案天候多變、連續出海，極易踩踏「一例一休」每週工時上限與「不得連續工作超過 6 日」強行法規限制。</strong>
         </div>
-        <ul class="bullet-list">
+        <ul class="bullet-list" id="card2Bullets">
           <li><strong>陸上團隊</strong>：陸上常態團隊嚴格落實每日 8 小時、每週 40 小時打卡制。</li>
           <li><strong>外海技術人員</strong>：於入職時明定工時制度，依法經勞資會議通過變形工時或排班協議，並將「海況待命」明確訂定津貼機制。</li>
         </ul>
@@ -226,16 +233,16 @@
           <div class="num-badge num-badge-green">3</div>
           <div class="card-title">成本最優解 × 員工案例</div>
         </div>
-        <div class="card-body-text">
+        <div class="card-body-text" id="card3Problem">
           老闆想省成本 = 將隨船工程師簽訂承攬/顧問約，規避勞基法加班費、特休與一例一休限制。
         </div>
         <div class="sub-box sub-box-green">
           <div class="sub-box-tag sub-box-tag-green">最優解</div>
-          <div class="sub-box-p">本土核心團隊一律採<strong>境內實體直接聘用 + 足額投保</strong>；針對離岸特殊排班制定輪休協議（如 2 週在船 / 2 週陸休），省下加班費的小錢，遠不及其後被主管機關勞檢裁罰與追繳補償的重大損失。</div>
+          <div class="sub-box-p" id="card3Optimal">本土核心團隊一律採<strong>境內實體直接聘用 + 足額投保</strong>；針對離岸特殊排班制定輪休協議（如 2 週在船 / 2 週陸休），省下加班費的小錢，遠不及其後被主管機關勞檢裁罰與追繳補償的重大損失。</div>
         </div>
         <div class="sub-box sub-box-amber">
           <div class="sub-box-tag sub-box-tag-amber">員工案例</div>
-          <div class="sub-box-p">某本地測量員隨外籍拋石船出海，因天候連續滯留作業 21 天，離職時向勞工局申訴違反七休一，並追討在船期間待命加班費與特休未休工資，最終資方補發巨額差額並受行政裁罰。</div>
+          <div class="sub-box-p" id="card3Case">某本地測量員隨外籍拋石船出海，因天候連續滯留作業 21 天，離職時向勞工局申訴違反七休一，並追討在船期間待命加班費與特休未休工資，最終資方補發巨額差額並受行政裁罰。</div>
         </div>
       </div>
     </div>
@@ -254,7 +261,7 @@
           <span class="team-badge badge-hse">HSE/Safety</span>
           <span class="team-badge badge-legal">Legal/風控</span>
         </div>
-        <ul class="bullet-list">
+        <ul class="bullet-list" id="card4Bullets">
           <li><strong>HRBP</strong>：查核出勤工時紀錄；依《性別平等工作法》修法後標準建立碼頭與專案基地之性騷擾防治及外部申訴調查機制。</li>
           <li><strong>Legal / 風控</strong>：審核海陸合約管轄權條款、智慧財產權歸屬與離岸專案保密協定。</li>
           <li><strong>HSE / Safety</strong>：對齊 Boskalis 國際海事安全標準與台灣《職安法》，落實水上/高空吊掛防護與工傷通報流程。</li>
@@ -264,6 +271,184 @@
     </div>
   </div>
 </div>
+
+<script>
+  // 資料集：支援切換國家/團隊
+  const dataStore = {
+    TW: {
+      code: "TW",
+      name: "台灣本土員工",
+      struct: "境內合資/分公司實體（如伯威海事 Boskalis HwaChi）直接簽署勞動合約",
+      stats: [
+        { title: "勞退新制", desc: "每滿 1 年發給 0.5 個月平均工資" },
+        { title: "上限 6 個月", desc: "資遣費法定累積上限" },
+        { title: "違法解僱 = 僱傭關係存在", desc: "判決確定需補發爭訟期間工資與利息" },
+        { title: "法規雙軌分流", desc: "勞基法（陸上）vs 海員法（在船）" }
+      ],
+      card1Title: "《勞動基準法》與《海員法》適用邊界：陸上與近岸支援團隊完全受《勞動基準法》管轄；登輪作業人員需依船舶國籍（外籍特種船 vs 台籍工作船）釐清管轄權分流。",
+      card1Bullets: [
+        "<strong>國產化政策（Local Content）要求</strong>：專案協調員、本地海事測量人員及後勤必須符合主管機關國產化承諾比率與用人資格。",
+        "<strong>法定提繳與投保</strong>：勞退新制 6% 為<strong>強制提繳</strong>；勞健保與職災保險自到職日起足額申報，嚴禁以津貼打包或書面切結協議放棄。"
+      ],
+      card1Footer: "法源：《勞動基準法》§11、§17、§84-1；《海員法》；《勞工退休金條例》§12",
+      card2Title: "政策紅線：<strong>海事專案天候多變、連續出海，極易踩踏「一例一休」每週工時上限與「不得連續工作超過 6 日」強行法規限制。</strong>",
+      card2Bullets: [
+        "<strong>陸上團隊</strong>：陸上常態團隊嚴格落實每日 8 小時、每週 40 小時打卡制。",
+        "<strong>外海技術人員</strong>：於入職時明定工時制度，依法經勞資會議通過變形工時或排班協議，並將「海況待命」明確訂定津貼機制。"
+      ],
+      card3Problem: "老闆想省成本 = 將隨船工程師簽訂承攬/顧問約，規避勞基法加班費、特休與一例一休限制。",
+      card3Optimal: "本土核心團隊一律採<strong>境內實體直接聘用 + 足額投保</strong>；針對離岸特殊排班制定輪休協議（如 2 週在船 / 2 週陸休），省下加班費的小錢，遠不及其後被主管機關勞檢裁罰與追繳補償的重大損失。",
+      card3Case: "某本地測量員隨外籍拋石船出海，因天候連續滯留作業 21 天，離職時向勞工局申訴違反七休一，並追討在船期間待命加班費與特休未休工資，最終資方補發巨額差額並受行政裁罰。",
+      card4Bullets: [
+        "<strong>HRBP</strong>：查核出勤工時紀錄；依《性別平等工作法》修法後標準建立碼頭與專案基地之性騷擾防治及外部申訴調查機制。",
+        "<strong>Legal / 風控</strong>：審核海陸合約管轄權條款、智慧財產權歸屬與離岸專案保密協定。",
+        "<strong>HSE / Safety</strong>：對齊 Boskalis 國際海事安全標準與台灣《職安法》，落實水上/高空吊掛防護與工傷通報流程。",
+        "<strong>Finance</strong>：精算海上危險津貼、輪休工資與勞健保/勞退各項法定義務扣繳。"
+      ]
+    },
+    EU: {
+      code: "EU",
+      name: "歐洲外派幹部與專家",
+      struct: "母公司派遣合約 (Secondment Agreement) / 境外母實體技術合約",
+      stats: [
+        { title: "母國法規優先", desc: "適用荷蘭/比利時母國勞動法規" },
+        { title: "跨國稅務 183 天", desc: "在台居留超期申報個人所得稅" },
+        { title: "工作許可 A 類", desc: "專門性技術性工作合法許可" },
+        { title: "國際輪休制", desc: "常態 4~6 週在船 / 4~6 週輪休" }
+      ],
+      card1Title: "外國人聘僱許可與屬地管理邊界：進駐台灣領海作業需依法申請勞動部 A 類外國專業人員許可，嚴禁持免簽證上船施工。",
+      card1Bullets: [
+        "<strong>簽證紅線</strong>：商務參訪或免簽嚴禁進行施工現場作業與操作特種船舶設備。",
+        "<strong>管轄權衝突</strong>：境外聘用契約約定仲裁條款，但台灣水域作業仍受屬地職安與環保法規強制監管。"
+      ],
+      card1Footer: "法源：《就業服務法》§46；各國外派派駐法規與雙邊租稅協定",
+      card2Title: "痛點：<strong>歐美直率領導風格易引發文化衝突，且跨國出入境作業若未嚴格追蹤停留天數，恐衍生重大個人稅務漏報風險。</strong>",
+      card2Bullets: [
+        "<strong>稅務合規</strong>：單一曆年停留滿 183 天即轉為台灣稅務居民，境外母公司發放之薪酬需依法申報結算。",
+        "<strong>跨文化管理</strong>：導入 DE&I 文化培訓，嚴禁微歧視與強勢管理語氣。"
+      ],
+      card3Problem: "老闆想省成本 = 貪圖行政便利以商務觀光入境即上船作業，規避工作許可申請程序。",
+      card3Optimal: "提前 30 天由台灣合資實體備齊工程合約與資歷證明申請 <strong>A 類專案工作許可</strong>；合約明確界定外派差旅補貼與外派租稅補償。",
+      card3Case: "某外籍水下吊裝技師持免簽隨船進入台中港並進行施工作業，遭移民署與勞工局登輪聯合稽查認定為非法工作，面臨驅逐出境與高額罰款，導致專案停工數週。",
+      card4Bullets: [
+        "<strong>HRBP</strong>：精確追蹤跨國停留天數（183 天稅務門檻）及工作簽證續簽週期。",
+        "<strong>Legal / 風控</strong>：審定母子派遣協議（Secondment Agreement）與跨國責任劃分。",
+        "<strong>HSE / Safety</strong>：推動 Boskalis Way 安全體系在地化並確保雙語通訊無阻。",
+        "<strong>Finance</strong>：處理涉外薪資拆分、非居民扣繳申報與跨國差旅核銷。"
+      ]
+    },
+    SEA: {
+      code: "SEA",
+      name: "國際特種海員 (東南亞/東歐)",
+      struct: "國際船員管理公司（Crew Manning Agency）海員僱傭合約 (SEA)",
+      stats: [
+        { title: "MLC 2006", desc: "國際海事勞工公約全球基準" },
+        { title: "STCW 認證", desc: "船員適任證書強制持有要求" },
+        { title: "Rest Hours 77h", desc: "每週休息時間不得少於 77 小時" },
+        { title: "船員換班通報", desc: "港口國管制 (PSC) 與岸休許可" }
+      ],
+      card1Title: "《2006 年海事勞工公約 (MLC 2006)》與船旗國法規主導：特種拋石船、起重船船員直接遵循國際公約勞動條件保障。",
+      card1Bullets: [
+        "<strong>強制休息時數</strong>：24 小時內休息不得少於 10 小時，7 天內不得少於 77 小時，嚴禁偽造 Rest Hours 紀錄。",
+        "<strong>換班（Crew Change）通報</strong>：進入台灣港口進行人員更替需遵守航港局與移民署指定通報流程與岸休規範。"
+      ],
+      card1Footer: "法源：ILO MLC 2006；IMO STCW 公約；台灣港口國管制 (PSC) 規範",
+      card2Title: "痛點：<strong>多語系溝通隔閡易引發重大海事工安風險；國際仲介公司若存在不當扣押護照或高額保證金易觸犯強迫勞動指控。</strong>",
+      card2Bullets: [
+        "<strong>語言與安全指令</strong>：重要甲板作業 Tool-Box Talk 必須包含英文與母語輔助翻譯。",
+        "<strong>仲介合規查核</strong>：嚴格稽核 Manning Agency 是否落實「零仲介費政策 (Employer Pays Principle)」。"
+      ],
+      card3Problem: "老闆想省成本 = 選擇低價但缺乏認證的勞務仲介，船員素質參差不齊且缺乏完整海事保險。",
+      card3Optimal: "選用經 MLC 認證之頂級國際船員管理代理商，合約載明符合 ITF 國際海員工會標準待遇，保障人道工資與醫療後送。",
+      card3Case: "某特種船船員因甲板吊掛事故重傷，仲介公司拒絕承擔境外醫療與遣返費用引發國際海員工會介入，船舶遭滯留港口無法出海，專案延誤損失高達數百萬歐元。",
+      card4Bullets: [
+        "<strong>HRBP</strong>：審查 Manning Agency 勞動與人權標準，防範強迫勞動風險。",
+        "<strong>Legal / 風控</strong>：審查 Seafarer Employment Agreement (SEA) 與海商法免責約定。",
+        "<strong>HSE / Safety</strong>：落實密閉空間進入演練、水上防墜救生演習與多語系安全手冊宣導。",
+        "<strong>Ops / 船務</strong>：對接港口代理辦理登輪許可、船員遣返及岸上緊急醫療後送通道。"
+      ]
+    }
+  };
+
+  // 切換國家/團隊 Tab
+  function switchCountry(countryKey) {
+    const tabs = document.querySelectorAll('.country-tab');
+    tabs.forEach(tab => {
+      const tag = tab.querySelector('.tag');
+      if (tab.innerText.includes(countryKey)) {
+        tab.classList.add('active');
+        tag.classList.remove('tag-inactive');
+        tag.classList.add('tag-active');
+      } else {
+        tab.classList.remove('active');
+        tag.classList.remove('tag-active');
+        tag.classList.add('tag-inactive');
+      }
+    });
+
+    const data = dataStore[countryKey];
+    if (!data) return;
+
+    // 更新 Header
+    document.getElementById('countryCode').innerText = data.code;
+    document.getElementById('countryName').innerText = data.name;
+    document.getElementById('structValue').innerText = data.struct;
+
+    // 更新 4 指標卡
+    document.getElementById('stat1Title').innerText = data.stats[0].title;
+    document.getElementById('stat1Desc').innerText = data.stats[0].desc;
+    document.getElementById('stat2Title').innerText = data.stats[1].title;
+    document.getElementById('stat2Desc').innerText = data.stats[1].desc;
+    document.getElementById('stat3Title').innerText = data.stats[2].title;
+    document.getElementById('stat3Desc').innerText = data.stats[2].desc;
+    document.getElementById('stat4Title').innerText = data.stats[3].title;
+    document.getElementById('stat4Desc').innerText = data.stats[3].desc;
+
+    // 更新 Card 1
+    document.getElementById('card1MainTitle').innerHTML = data.card1Title;
+    document.getElementById('card1Bullets').innerHTML = data.card1Bullets.map(b => `<li>${b}</li>`).join('');
+    document.getElementById('card1Footer').innerText = data.card1Footer;
+
+    // 更新 Card 2
+    document.getElementById('card2MainTitle').innerHTML = data.card2Title;
+    document.getElementById('card2Bullets').innerHTML = data.card2Bullets.map(b => `<li>${b}</li>`).join('');
+
+    // 更新 Card 3
+    document.getElementById('card3Problem').innerText = data.card3Problem;
+    document.getElementById('card3Optimal').innerHTML = data.card3Optimal;
+    document.getElementById('card3Case').innerText = data.card3Case;
+
+    // 更新 Card 4
+    document.getElementById('card4Bullets').innerHTML = data.card4Bullets.map(b => `<li>${b}</li>`).join('');
+  }
+
+  // 切換 Stage 狀態 Pills
+  function switchStage(element, titleText) {
+    document.querySelectorAll('.stage-pill').forEach(pill => {
+      pill.classList.remove('active');
+      pill.classList.add('inactive');
+      const dot = pill.querySelector('.stage-dot');
+      if (dot.classList.contains('active')) {
+        dot.classList.remove('active');
+      }
+    });
+    element.classList.remove('inactive');
+    element.classList.add('active');
+    element.querySelector('.stage-dot').classList.add('active');
+
+    document.getElementById('stageLabel').innerText = '▍ ' + titleText;
+  }
+
+  // 切換語系按鈕狀態
+  function switchLang(element) {
+    document.querySelectorAll('.lang-btn').forEach(btn => {
+      btn.classList.remove('active');
+      btn.classList.add('inactive');
+    });
+    element.classList.remove('inactive');
+    element.classList.add('active');
+  }
+</script>
 
 </body>
 </html>
