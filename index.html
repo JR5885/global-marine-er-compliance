@@ -65,8 +65,7 @@
   /* Content Grid */
   .cards-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
   .card { background: #0e1526; border-radius: 12px; padding: 24px; display: flex; flex-direction: column; justify-content: space-between; }
-  .card-top { border: 1px solid #1e293b; }
-  .card-law { border-color: #1e293b; }
+  .card-law { border: 1px solid #1e293b; }
   .card-crypto { border: 1px solid #7f1d1d; }
   .card-cost { border: 1px solid #064e3b; }
   .card-collab { border: 1px solid #1e293b; }
@@ -80,8 +79,7 @@
   .card-title { font-size: 13px; font-weight: 600; color: #64748b; letter-spacing: 0.5px; }
 
   /* Inner Card Content */
-  .main-law-title { font-size: 15px; font-weight: 700; color: #ffffff; margin-bottom: 14px; line-height: 1.5; }
-  .main-law-title span { color: #60a5fa; }
+  .main-law-title { font-size: 14.5px; font-weight: 700; color: #ffffff; margin-bottom: 14px; line-height: 1.5; }
   .card-body-text { font-size: 13px; line-height: 1.7; color: #cbd5e1; margin-bottom: 14px; }
   .bullet-list { list-style: none; display: flex; flex-direction: column; gap: 10px; font-size: 13px; line-height: 1.6; color: #cbd5e1; margin-bottom: 18px; }
   .bullet-list li { position: relative; padding-left: 16px; }
@@ -105,6 +103,7 @@
   .badge-hrbp { background: #064e3b; color: #34d399; }
   .badge-sec { background: #1e3a8a; color: #60a5fa; }
   .badge-fin { background: #451a03; color: #f97316; }
+  .badge-hse { background: #047857; color: #6ee7b7; }
   .badge-legal { background: #7f1d1d; color: #f87171; }
 </style>
 </head>
@@ -113,7 +112,7 @@
 <div class="container">
   <!-- Top Navigation -->
   <div class="top-bar">
-    <div class="logo-title">Global Benchmark</div>
+    <div class="logo-title">離岸海事工程跨國用工與 ER 合規架構儀表板</div>
     <div class="lang-switch">
       <button class="lang-btn active">繁中</button>
       <button class="lang-btn inactive">EN</button>
@@ -123,37 +122,35 @@
   <!-- Legend Bar -->
   <div class="legend-bar">
     <div class="legend-item"><span class="dot dot-law"></span> 最新法規</div>
-    <div class="legend-item"><span class="dot dot-crypto"></span> Crypto 痛點</div>
+    <div class="legend-item"><span class="dot dot-crypto"></span> 海事用工痛點</div>
     <div class="legend-item"><span class="dot dot-opt"></span> 成本最優解</div>
     <div class="legend-item"><span class="dot dot-team"></span> 跨部門協作</div>
   </div>
 
   <!-- Country Tabs -->
   <div class="country-tabs">
-    <div class="country-tab">CN 中國大陸 <span class="tag tag-inactive">CN</span></div>
-    <div class="country-tab">US 美國 <span class="tag tag-inactive">US</span></div>
-    <div class="country-tab active">TW 台灣 <span class="tag tag-active">TW</span></div>
-    <div class="country-tab">MY 馬來西亞 <span class="tag tag-inactive">MY</span></div>
-    <div class="country-tab">IN 印度 <span class="tag tag-inactive">IN</span></div>
+    <div class="country-tab">NL/BE/UK/DE 歐洲外派幹部 <span class="tag tag-inactive">EU</span></div>
+    <div class="country-tab active">TW 台灣本土員工 <span class="tag tag-active">TW</span></div>
+    <div class="country-tab">PH/ID/UA 國際船員 <span class="tag tag-inactive">SEA</span></div>
   </div>
 
   <!-- Header Section -->
   <div class="country-header">
     <div class="country-title-box">
       <span class="country-code">TW</span>
-      <span class="country-name">台灣</span>
+      <span class="country-name">台灣本土員工</span>
     </div>
     <div class="employment-struct">
       <div class="struct-label">雇傭架構</div>
-      <div class="struct-value">境內外商分公司 / 合資實體（伯威海事） / 境外技術顧問約</div>
+      <div class="struct-value">境內合資/分公司實體（如伯威海事 Boskalis HwaChi）直接簽署勞動合約</div>
     </div>
   </div>
 
   <!-- Stats Cards Bar -->
   <div class="stats-grid">
     <div class="stat-card">
-      <div class="stat-title stat-title-cyan">勞退新制 0.5 個月</div>
-      <div class="stat-desc">每滿1年 = 0.5個月平均工資</div>
+      <div class="stat-title stat-title-cyan">勞退新制</div>
+      <div class="stat-desc">每滿 1 年發給 0.5 個月平均工資</div>
     </div>
     <div class="stat-card">
       <div class="stat-title stat-title-cyan">上限 6 個月</div>
@@ -161,10 +158,10 @@
     </div>
     <div class="stat-card">
       <div class="stat-title stat-title-cyan">違法解僱 = 僱傭關係存在</div>
-      <div class="stat-desc">補發爭訟期間工資與遲延利息</div>
+      <div class="stat-desc">判決確定需補發爭訟期間工資與利息</div>
     </div>
     <div class="stat-card">
-      <div class="stat-title stat-title-cyan">海陸法規分流</div>
+      <div class="stat-title stat-title-cyan">法規雙軌分流</div>
       <div class="stat-desc">勞基法（陸上）vs 海員法（在船）</div>
     </div>
   </div>
@@ -184,41 +181,40 @@
 
   <!-- Stage Label -->
   <div class="section-label">
-    <span class="bar"></span> 入職 ONBOARDING — 架構合規 + 人員配置
+    <span class="bar"></span> ▍入職 ONBOARDING — 架構合規 + 人員配置
   </div>
 
   <!-- Content 2x2 Grid -->
   <div class="cards-grid">
     <!-- Card 1 -->
-    <div class="card card-top card-law">
+    <div class="card card-law">
       <div>
         <div class="card-header">
           <div class="num-badge num-badge-gray">1</div>
           <div class="card-title">目前最新勞動法規</div>
         </div>
-        <div class="main-law-title">《勞動基準法》與《海員法》分流管轄。境內陸上團隊完全受勞基法保護；隨船作業須依船舶註冊國籍區分適用。</div>
+        <div class="main-law-title">《勞動基準法》與《海員法》適用邊界：陸上與近岸支援團隊完全受《勞動基準法》管轄；登輪作業人員需依船舶國籍（外籍特種船 vs 台籍工作船）釐清管轄權分流。</div>
         <ul class="bullet-list">
-          <li><strong>國產化政策（Local Content）</strong>：本地專案協調員、測量人員及後勤必須符合主管機關國產化比例要求。</li>
-          <li><strong>試用期約定</strong>：法令未明文限制，常態約定 3 個月，解僱仍需符合法定資遣要件並依法給付預告工資。</li>
-          <li><strong>勞退提繳與社保</strong>：勞退新制 6% 為<strong>強制提繳</strong>，勞健保與職災保險自受僱日起足額投保，不得以切結書協議放棄。</li>
+          <li><strong>國產化政策（Local Content）要求</strong>：專案協調員、本地海事測量人員及後勤必須符合主管機關國產化承諾比率與用人資格。</li>
+          <li><strong>法定提繳與投保</strong>：勞退新制 6% 為<strong>強制提繳</strong>；勞健保與職災保險自到職日起足額申報，嚴禁以津貼打包或書面切結協議放棄。</li>
         </ul>
       </div>
       <div class="law-footer">法源：《勞動基準法》§11、§17、§84-1；《海員法》；《勞工退休金條例》§12</div>
     </div>
 
     <!-- Card 2 -->
-    <div class="card card-top card-crypto">
+    <div class="card card-crypto">
       <div>
         <div class="card-header">
           <div class="num-badge num-badge-red">2</div>
-          <div class="card-title">海事排班 × 跨境痛點 × 解法</div>
+          <div class="card-title">海事用工痛點 × 解法</div>
         </div>
         <div class="card-body-text">
-          政策紅線：<strong>外海作業連續出勤易違反「七休一」與工時上限；外籍技師無工作許可作業即屬非法。</strong>
+          政策紅線：<strong>海事專案天候多變、連續出海，極易踩踏「一例一休」每週工時上限與「不得連續工作超過 6 日」強行法規限制。</strong>
         </div>
         <ul class="bullet-list">
-          <li><strong>解法（工時制度）</strong>：陸上人員嚴格執行 8 小時打卡制；隨船技術人員依法經勞資會議通過變形工時，合約精確拆分「在勤工時」與「外海待命津貼」。</li>
-          <li><strong>解法（簽證合規）</strong>：歐洲外籍技師必須依法取得勞動部核發之 <strong>A 類專門性技術性工作許可</strong>，嚴禁持免簽或商務觀光入境在甲板施工作業。</li>
+          <li><strong>陸上團隊</strong>：陸上常態團隊嚴格落實每日 8 小時、每週 40 小時打卡制。</li>
+          <li><strong>外海技術人員</strong>：於入職時明定工時制度，依法經勞資會議通過變形工時或排班協議，並將「海況待命」明確訂定津貼機制。</li>
         </ul>
       </div>
     </div>
@@ -231,15 +227,15 @@
           <div class="card-title">成本最優解 × 員工案例</div>
         </div>
         <div class="card-body-text">
-          老闆想省成本 = 將隨船本土測量員全簽承攬（Contractor）規避一例一休與加班費。
+          老闆想省成本 = 將隨船工程師簽訂承攬/顧問約，規避勞基法加班費、特休與一例一休限制。
         </div>
         <div class="sub-box sub-box-green">
           <div class="sub-box-tag sub-box-tag-green">最優解</div>
-          <div class="sub-box-p">核心技術與後勤崗位全數<strong>境內實體合規聘用 + 足額投保</strong>；排班制落實 2 週在船 / 2 週輪休。省下加班費與投保的小錢，遠不及日後被勞檢開罰與追補鉅額加班費的大錢。</div>
+          <div class="sub-box-p">本土核心團隊一律採<strong>境內實體直接聘用 + 足額投保</strong>；針對離岸特殊排班制定輪休協議（如 2 週在船 / 2 週陸休），省下加班費的小錢，遠不及其後被主管機關勞檢裁罰與追繳補償的重大損失。</div>
         </div>
         <div class="sub-box sub-box-amber">
           <div class="sub-box-tag sub-box-tag-amber">員工案例</div>
-          <div class="sub-box-p">某本地測量員隨外籍施工船出海，因天候連續滯留作業 21 天，離職時檢舉雇主違反七休一並追討外海待命加班費與特休未休工資，主管機關勞檢裁處重罰並限期全額補發。</div>
+          <div class="sub-box-p">某本地測量員隨外籍拋石船出海，因天候連續滯留作業 21 天，離職時向勞工局申訴違反七休一，並追討在船期間待命加班費與特休未休工資，最終資方補發巨額差額並受行政裁罰。</div>
         </div>
       </div>
     </div>
@@ -249,18 +245,19 @@
       <div>
         <div class="card-header">
           <div class="num-badge num-badge-blue">4</div>
-          <div class="card-title">跨部門協作（風控／財務／安全）</div>
+          <div class="card-title">跨部門協作（HRBP / 風控 / 財務 / 安全）</div>
         </div>
         <div class="badge-row">
           <span class="team-badge badge-hrbp">HRBP</span>
-          <span class="team-badge badge-sec">HSE/Safety</span>
+          <span class="team-badge badge-sec">IT Security</span>
           <span class="team-badge badge-fin">Finance</span>
-          <span class="team-badge badge-legal">風控/Legal</span>
+          <span class="team-badge badge-hse">HSE/Safety</span>
+          <span class="team-badge badge-legal">Legal/風控</span>
         </div>
         <ul class="bullet-list">
-          <li><strong>HRBP</strong>：稽核出勤與海上工時紀錄；依《性別平等工作法》最新規範建立海上及碼頭職場防騷擾、防霸凌申訴與調查管道。</li>
-          <li><strong>Legal / 風控</strong>：審查海陸合約管轄權條款、著作權與營業秘密歸屬、涉外離岸專案保密協定。</li>
-          <li><strong>HSE / Safety</strong>：對齊 Boskalis 國際母公司安全標準與台灣職安署通報規範，落實高空吊掛、水下及密閉空間作業防護。</li>
+          <li><strong>HRBP</strong>：查核出勤工時紀錄；依《性別平等工作法》修法後標準建立碼頭與專案基地之性騷擾防治及外部申訴調查機制。</li>
+          <li><strong>Legal / 風控</strong>：審核海陸合約管轄權條款、智慧財產權歸屬與離岸專案保密協定。</li>
+          <li><strong>HSE / Safety</strong>：對齊 Boskalis 國際海事安全標準與台灣《職安法》，落實水上/高空吊掛防護與工傷通報流程。</li>
           <li><strong>Finance</strong>：精算海上危險津貼、輪休工資與勞健保/勞退各項法定義務扣繳。</li>
         </ul>
       </div>
